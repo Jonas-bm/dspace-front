@@ -128,7 +128,7 @@ export class ThumbnailComponent implements OnChanges {
             // Ignored in tests where Store is missing
           }
 
-          if (bitstreamService) {
+          if (bitstreamService && typeof bitstreamService.findAllByItemAndBundleName === 'function') {
             bitstreamService.findAllByItemAndBundleName(this.item, 'ORIGINAL', {
               currentPage: 1,
               elementsPerPage: 20,

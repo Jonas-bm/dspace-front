@@ -84,6 +84,20 @@ const mockItemWithoutMetadata: ItemSearchResult = Object.assign(new ItemSearchRe
       metadata: {},
     }),
 });
+const mockItemWithPublisherOnly: ItemSearchResult = Object.assign(new ItemSearchResult(), {
+  indexableObject:
+    Object.assign(new Item(), {
+      bundles: of({}),
+      metadata: {
+        'dc.publisher': [
+          {
+            language: 'en_US',
+            value: 'a publisher',
+          },
+        ],
+      },
+    }),
+});
 const mockPerson: ItemSearchResult = Object.assign(new ItemSearchResult(), {
   hitHighlights: {
     'person.familyName': [{
@@ -260,7 +274,7 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should show the author paragraph', () => {
-      const itemAuthorField = fixture.debugElement.query(By.css('span.item-list-authors'));
+      const itemAuthorField = fixture.debugElement.query(By.css('.pub-authors span'));
       expect(itemAuthorField).not.toBeNull();
     });
   });
@@ -272,19 +286,19 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should not show the author paragraph', () => {
-      const itemAuthorField = fixture.debugElement.query(By.css('span.item-list-authors'));
+      const itemAuthorField = fixture.debugElement.query(By.css('.pub-authors span'));
       expect(itemAuthorField).toBeNull();
     });
   });
 
   describe('When the item has a publisher', () => {
     beforeEach(() => {
-      publicationListElementComponent.object = mockItemWithMetadata;
+      publicationListElementComponent.object = mockItemWithPublisherOnly;
       fixture.detectChanges();
     });
 
     it('should show the publisher span', () => {
-      const publisherField = fixture.debugElement.query(By.css('span.item-list-publisher'));
+      const publisherField = fixture.debugElement.query(By.css('.pub-authors span'));
       expect(publisherField).not.toBeNull();
     });
   });
@@ -296,7 +310,7 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should not show the publisher span', () => {
-      const publisherField = fixture.debugElement.query(By.css('span.item-list-publisher'));
+      const publisherField = fixture.debugElement.query(By.css('.pub-authors span'));
       expect(publisherField).toBeNull();
     });
   });
@@ -308,7 +322,7 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should show the issuedate span', () => {
-      const dateField = fixture.debugElement.query(By.css('span.item-list-date'));
+      const dateField = fixture.debugElement.query(By.css('.pub-year'));
       expect(dateField).not.toBeNull();
     });
   });
@@ -320,7 +334,7 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should not show the issuedate span', () => {
-      const dateField = fixture.debugElement.query(By.css('span.item-list-date'));
+      const dateField = fixture.debugElement.query(By.css('.pub-year'));
       expect(dateField).toBeNull();
     });
   });
@@ -332,7 +346,7 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should show the abstract span', () => {
-      const abstractField = fixture.debugElement.query(By.css('div.item-list-abstract'));
+      const abstractField = fixture.debugElement.query(By.css('.pub-abstract'));
       expect(abstractField).not.toBeNull();
     });
   });
@@ -344,7 +358,7 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should not show the abstract span', () => {
-      const abstractField = fixture.debugElement.query(By.css('div.item-list-abstract'));
+      const abstractField = fixture.debugElement.query(By.css('.pub-abstract'));
       expect(abstractField).toBeNull();
     });
   });
@@ -356,8 +370,9 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should show highlighted title', () => {
-      const titleField = fixture.debugElement.query(By.css('.item-list-title'));
-      expect(titleField.nativeNode.innerHTML).toEqual(dcTitle);
+      const titleField = fixture.debugElement.query(By.css('.pub-title'));
+      // The new HTML nests the title inside an <a> tag
+      expect(titleField.nativeElement.innerHTML.includes(dcTitle)).toBeTrue();
     });
   });
 
@@ -368,8 +383,8 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should show highlighted title', () => {
-      const titleField = fixture.debugElement.query(By.css('.item-list-title'));
-      expect(titleField.nativeNode.innerHTML).toEqual('<em>Michel</em>');
+      const titleField = fixture.debugElement.query(By.css('.pub-title'));
+      expect(titleField.nativeElement.innerHTML.includes('<em>Michel</em>')).toBeTrue();
     });
   });
 
@@ -380,8 +395,8 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should show highlighted title', () => {
-      const titleField = fixture.debugElement.query(By.css('.item-list-title'));
-      expect(titleField.nativeNode.innerHTML).toEqual('<em>Science</em>');
+      const titleField = fixture.debugElement.query(By.css('.pub-title'));
+      expect(titleField.nativeElement.innerHTML.includes('<em>Science</em>')).toBeTrue();
     });
   });
 
@@ -392,7 +407,7 @@ describe('ItemSearchResultListElementComponent', () => {
     });
 
     it('should show the fallback untitled translation', () => {
-      const titleField = fixture.debugElement.query(By.css('.item-list-title'));
+      const titleField = fixture.debugElement.query(By.css('.pub-title'));
       expect(titleField.nativeElement.textContent.trim()).toEqual(UNDEFINED_NAME);
     });
   });
