@@ -1,0 +1,69 @@
+<div class="hero-section-container">
+  <div class="hero-wrapper">
+    <!-- Dynamic Zooming Slides Background -->
+    <div class="hero-slides-container" aria-hidden="true">
+      @for (slide of slides; track slide.image; let i = $index) {
+        <div
+          class="hero-slide"
+          [class.active]="currentSlide === i"
+          [style.background-image]="'url(' + slide.image + ')'"
+        ></div>
+      }
+      <div class="hero-overlay"></div>
+    </div>
+
+    <!-- Hero Content -->
+    <div class="container hero-content text-center">
+      <h1 class="hero-title">
+        REPOSITORIO DIGITAL
+      </h1>
+
+      <p class="hero-subtitle">
+        Acceso abierto al conocimiento académico, científico e institucional
+      </p>
+
+      <!-- Search Form -->
+      <div class="hero-search-box">
+        <form (ngSubmit)="onSearchSubmit()" class="search-form-pill" role="search">
+          <div class="input-wrapper">
+            <i class="fas fa-search search-icon" aria-hidden="true"></i>
+            <input
+              type="text"
+              class="form-control hero-input"
+              [(ngModel)]="searchQuery"
+              name="searchQuery"
+              placeholder="Buscar en el repositorio..."
+              aria-label="Buscar en el repositorio"
+              autocomplete="off"
+            />
+          </div>
+          <button type="submit" class="btn btn-search-hero">
+            <i class="fas fa-search me-1" aria-hidden="true"></i>
+            <span>BUSCAR</span>
+          </button>
+        </form>
+      </div>
+
+      <!-- 6 Quick Access Category Cards (Placed inside Hero at the bottom) -->
+      <div class="hero-categories-inner">
+        <div class="categories-grid-container">
+          @for (category of categories; track category.name) {
+            <a
+              [routerLink]="['/search']"
+              [queryParams]="{ 'f.itemtype': category.filter + ',equals' }"
+              class="category-card"
+            >
+              <div class="category-icon">
+                <i [class]="category.icon" aria-hidden="true"></i>
+              </div>
+              <div class="category-title-box">
+                <span class="category-title">{{ category.name }}</span>
+              </div>
+            </a>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

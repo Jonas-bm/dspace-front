@@ -1,0 +1,116 @@
+@if (hasData) {
+  <div class="card statistics-card shadow-sm border-0 mb-4">
+    <div class="card-header bg-white border-bottom-0 d-flex align-items-center justify-content-between py-3 px-4">
+      <h2 class="card-title h5 mb-0 text-dark fw-bold">
+        {{ 'statistics.table.title.' + report.reportType | translate }}
+      </h2>
+    </div>
+
+    <div class="card-body p-0">
+      @if (isChartView) {
+        <!-- Trend line/area chart for time-series reports -->
+        @if (report.reportType === 'TotalVisitsPerMonth') {
+          <div class="chart-container p-4">
+            <svg [attr.viewBox]="'0 0 ' + svgWidth + ' ' + svgHeight" class="trend-svg w-100 h-auto" preserveAspectRatio="xMidYMid meet">
+              <defs>
+                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#6f42c1" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#6f42c1" stop-opacity="0.0"/>
+                </linearGradient>
+                <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stop-color="#0d6efd"/>
+                  <stop offset="100%" stop-color="#6f42c1"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Grid helper lines & values -->
+              @for (line of yAxisGridLines; track line) {
+                <g class="grid-line-group">
+                  <line [attr.x1]="paddingX" [attr.y1]="line.y" [attr.x2]="svgWidth - paddingX" [attr.y2]="line.y" stroke="#e9ecef" stroke-dasharray="3,3" stroke-width="1"></line>
+                  <text [attr.x]="paddingX - 12" [attr.y]="line.y + 4" text-anchor="end" class="grid-label">{{ line.value }}</text>
+                </g>
+              }
+
+              <!-- Filled Area Under Line -->
+              <path [attr.d]="areaPath" fill="url(#areaGrad)"></path>
+
+              <!-- Main Trend Line -->
+              <path [attr.d]="linePath" fill="none" stroke="url(#lineGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="trend-path"></path>
+
+              <!-- Point Markers & Labels -->
+              @for (pt of svgPoints; track pt; let i = $index) {
+                <g class="chart-point-group">
+                  <!-- Vertical guideline -->
+                  <line [attr.x1]="pt.x" [attr.y1]="pt.y" [attr.x2]="pt.x" [attr.y2]="svgHeight - paddingY" stroke="#f1f3f5" stroke-width="1" stroke-dasharray="2,2"></line>
+                  
+                  <!-- Interactive dot -->
+                  <circle [attr.cx]="pt.x" [attr.cy]="pt.y" r="4.5" fill="#fff" stroke="#6f42c1" stroke-width="3" class="chart-point-dot"></circle>
+                  
+                  <!-- Numeric label above point -->
+                  <text [attr.x]="pt.x" [attr.y]="pt.y - 12" text-anchor="middle" class="point-value-label fw-semibold">{{ pt.value }}</text>
+                  
+                  <!-- Month/Date label at the bottom -->
+                  <text [attr.x]="pt.x" [attr.y]="svgHeight - paddingY + 18" text-anchor="middle" class="axis-label-x">{{ pt.label }}</text>
+                </g>
+              }
+            </svg>
+          </div>
+        } @else {
+          <!-- Ranking List with horizontal progress bars -->
+          <div class="ranking-list p-4">
+            @for (point of report.points; track point; let i = $index) {
+              <div class="ranking-row mb-3">
+                <div class="ranking-meta d-flex justify-content-between mb-1">
+                  <span class="ranking-label text-truncate text-secondary small fw-semibold" [title]="point.label">
+                    {{ point.label }}
+                  </span>
+                  <span class="ranking-value small fw-bold text-dark text-nowrap">
+                    @if (headers[0] === 'views') {
+                      <i class="fas fa-eye me-1 text-muted small" aria-hidden="true"></i>
+                    } @else if (headers[0] === 'downloads') {
+                      <i class="fas fa-download me-1 text-muted small" aria-hidden="true"></i>
+                    }
+                    {{ getPointValue(point) }}
+                  </span>
+                </div>
+                <div class="progress-container">
+                  <div class="progress-bar-fill" [style.width.%]="getBarWidthPercentage(point)"></div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      } @else {
+        <!-- Standard DSpace Table View -->
+        <div class="table-responsive p-3">
+          <table class="table table-striped table-hover mb-0" [attr.data-test]="report.reportType">
+            <thead>
+              <tr class="table-light">
+                <th scope="col" class="border-0"></th>
+                @for (header of headers; track header) {
+                  <th scope="col" class="{{header}}-header border-0 text-dark fw-bold small">
+                    {{ 'statistics.table.header.' + header | translate }}
+                  </th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (point of report.points; track point) {
+                <tr class="{{point.id}}-data align-middle">
+                  <th scope="row" data-test="statistics-label" class="small fw-semibold text-secondary py-3">
+                    {{ point.label }}
+                  </th>
+                  @for (header of headers; track header) {
+                    <td class="{{point.id}}-{{header}}-data py-3 text-dark small fw-semibold">
+                      {{ point.values[header] }}
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </div>
+  </div>
+}

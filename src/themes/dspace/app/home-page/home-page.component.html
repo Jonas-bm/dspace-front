@@ -1,0 +1,283 @@
+<!-- Hero Section -->
+<ds-home-news></ds-home-news>
+
+<!-- Main Home Content Body (Light Theme by default with Dark Mode support) -->
+<main class="home-main-section" id="main-content">
+  <div class="container">
+    <div class="row g-4">
+      <!-- Left Column: Publicaciones Recientes & Comunidades -->
+      <div class="col-lg-8">
+        <!-- Section: Publicaciones Recientes -->
+        <section class="publications-section" aria-labelledby="recent-publications-heading">
+          <div class="section-header-bar d-flex justify-content-between align-items-center flex-wrap gap-3 mb-5 pb-2">
+            <div class="d-flex align-items-center gap-3">
+              <span class="header-icon-badge">
+                <i class="fas fa-podcast" aria-hidden="true"></i>
+              </span>
+              <h2 id="recent-publications-heading" class="section-heading mb-0">Publicaciones recientes</h2>
+            </div>
+            <div class="feed-buttons-group d-flex gap-1">
+              <a href="/feed/atom_1.0/site" class="btn-feed btn-atom" target="_blank" rel="noopener noreferrer" title="Atom Feed">
+                ATOM
+              </a>
+              <a href="/feed/rss_2.0/site" class="btn-feed btn-rss" target="_blank" rel="noopener noreferrer" title="RSS Feed">
+                RSS
+              </a>
+            </div>
+          </div>
+
+          <!-- Publication Cards List -->
+          <div class="publications-list d-flex flex-column gap-3">
+            @if (isLoading) {
+              @for (item of skeletonItems; track item) {
+                <article class="publication-card skeleton-card">
+                  <div class="card-left-col">
+                    <div class="thumb-canvas skeleton-shimmer"></div>
+                  </div>
+
+                  <div class="card-right-col">
+                    <div class="pub-badges-row d-flex align-items-center justify-content-between flex-wrap gap-2">
+                      <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <div class="skeleton-badge skeleton-shimmer" style="width: 105px; height: 24px;"></div>
+                        <div class="skeleton-badge skeleton-shimmer" style="width: 75px; height: 24px;"></div>
+                      </div>
+                      <div class="skeleton-year skeleton-shimmer" style="width: 45px; height: 20px;"></div>
+                    </div>
+
+                    <div class="skeleton-title skeleton-shimmer mt-3" style="width: 82%; height: 24px;"></div>
+                    <div class="skeleton-authors skeleton-shimmer mt-2" style="width: 38%; height: 16px;"></div>
+
+                    <div class="skeleton-abstract-group mt-2">
+                      <div class="skeleton-line skeleton-shimmer" style="width: 98%; height: 14px; margin-bottom: 6px;"></div>
+                      <div class="skeleton-line skeleton-shimmer" style="width: 90%; height: 14px; margin-bottom: 6px;"></div>
+                      <div class="skeleton-line skeleton-shimmer" style="width: 68%; height: 14px;"></div>
+                    </div>
+
+                    <div class="pub-keywords d-flex flex-wrap gap-2 mt-3">
+                      <div class="skeleton-pill skeleton-shimmer" style="width: 85px; height: 22px;"></div>
+                      <div class="skeleton-pill skeleton-shimmer" style="width: 110px; height: 22px;"></div>
+                      <div class="skeleton-pill skeleton-shimmer" style="width: 95px; height: 22px;"></div>
+                    </div>
+                  </div>
+                </article>
+              }
+            } @else {
+              @for (pub of recentPublications; track pub.id) {
+                <article class="publication-card">
+                  <div class="card-left-col">
+                    <a [routerLink]="['/items', pub.id]" class="thumb-link d-block w-100 h-100">
+                      <div class="thumb-canvas">
+                        <ds-pdf-thumbnail [pdfUrl]="pub.pdfUrl" [fallbackUrl]="'assets/org/logo-unid.webp'" [alt]="pub.title" class="thumb-logo"></ds-pdf-thumbnail>
+                        <div class="thumb-stats-overlay d-flex align-items-center gap-1">
+                          <span class="stat-badge stat-views" [title]="'Visualizaciones'">
+                            <i class="fas fa-eye me-1" aria-hidden="true"></i>
+                            {{ pub.views }}
+                          </span>
+                          <span class="stat-badge stat-downloads" [title]="'Descargas'">
+                            <i class="fas fa-download me-1" aria-hidden="true"></i>
+                            {{ pub.downloads }}
+                          </span>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+
+                  <div class="card-right-col">
+                    <div class="pub-badges-row d-flex align-items-center justify-content-between flex-wrap gap-2">
+                      <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="badge-access-open">
+                          <i class="fas fa-lock-open me-1" aria-hidden="true"></i>
+                          {{ pub.accessType }}
+                        </span>
+                        <span class="badge-item-type">
+                          <i class="fas fa-file-alt me-1" aria-hidden="true"></i>
+                          {{ pub.itemType }}
+                        </span>
+                      </div>
+                      <span class="pub-year">{{ pub.year }}</span>
+                    </div>
+
+                    <h3 class="pub-title">
+                      <a [routerLink]="['/items', pub.id]">{{ pub.title }}</a>
+                    </h3>
+
+                    <p class="pub-authors">{{ pub.authors.join(' | ') }}</p>
+
+                    <p class="pub-abstract">{{ pub.abstract }}</p>
+
+                    <div class="pub-keywords d-flex flex-wrap gap-2">
+                      @for (tag of pub.keywords; track tag) {
+                        <span class="keyword-pill">{{ tag }}</span>
+                      }
+                    </div>
+                  </div>
+                </article>
+              }
+              @if (recentPublications.length === 0) {
+                <div class="alert alert-info text-center py-4 rounded-3 border-0 shadow-sm">
+                  <i class="fas fa-info-circle fa-2x mb-2 text-info" aria-hidden="true"></i>
+                  <p class="mb-0 fw-semibold">No se encontraron publicaciones recientes en este momento.</p>
+                </div>
+              }
+            }
+          </div>
+
+          <!-- Pagination Bar -->
+          <div class="pagination-footer d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4" *ngIf="totalResults > 0">
+            <div class="page-size-selector d-flex align-items-center gap-2">
+              <label for="pageSizeSelect" class="pagination-label">Registros a mostrar</label>
+              <select id="pageSizeSelect" class="form-select page-size-select" [ngModel]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)">
+                <option [value]="5">5</option>
+                <option [value]="10">10</option>
+                <option [value]="20">20</option>
+              </select>
+            </div>
+            <div class="pagination-info d-flex align-items-center gap-3">
+              <span class="results-range-text">{{ resultsRangeText }}</span>
+              <div class="nav-arrows-group d-flex gap-1">
+                <button type="button" class="btn btn-arrow-nav" [disabled]="currentPage === 1 || isLoading" (click)="goToPage(currentPage - 1)" aria-label="Página anterior">
+                  <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-arrow-nav" [disabled]="currentPage === totalPages || isLoading" (click)="goToPage(currentPage + 1)" aria-label="Página siguiente">
+                  <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section: Comunidades en DSpace (Oculto visualmente) -->
+        <section class="communities-section mt-5 d-none" aria-labelledby="communities-heading">
+          <div class="section-header-bar mb-3">
+            <h2 id="communities-heading" class="section-heading mb-1">Comunidades en DSpace</h2>
+            <p class="section-subtext mb-0">Seleccione una comunidad para explorar sus colecciones.</p>
+          </div>
+          <div class="communities-container">
+            <ds-top-level-community-list></ds-top-level-community-list>
+          </div>
+        </section>
+      </div>
+
+      <!-- Right Column: Sidebar Widgets -->
+      <div class="col-lg-4 home-sidebar-col">
+        <!-- Widget 1: Explorar Índices -->
+        <aside class="sidebar-widget mb-4" aria-labelledby="widget-indices-heading">
+          <div class="widget-header">
+            <i class="fas fa-compass text-primary me-2" aria-hidden="true"></i>
+            <h3 id="widget-indices-heading" class="widget-title mb-0">Explorar Índices</h3>
+          </div>
+          <div class="widget-body p-0">
+            <ul class="indices-list list-unstyled mb-0">
+              @for (idx of exploreIndices; track idx.label) {
+                <li>
+                  <a [routerLink]="[idx.route]" class="index-item-link">
+                    <span class="index-left">
+                      <i [class]="idx.icon + ' index-icon'" aria-hidden="true"></i>
+                      <span class="index-label">{{ idx.label }}</span>
+                    </span>
+                    <i class="fas fa-chevron-right chevron-icon" aria-hidden="true"></i>
+                  </a>
+                </li>
+              }
+            </ul>
+          </div>
+        </aside>
+
+        <!-- Widget 2: Top 7 ítems más visitados -->
+        <aside class="sidebar-widget mb-4" aria-labelledby="widget-visited-heading">
+          <div class="widget-header d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-chart-bar text-danger me-2" aria-hidden="true"></i>
+              <h3 id="widget-visited-heading" class="widget-title mb-0">Top 7 Items más visitados</h3>
+            </div>
+          </div>
+          <div class="widget-body p-0">
+            @if (topVisitedLoading) {
+              <ul class="top-items-list list-unstyled mb-0">
+                @for (sk of [1,2,3,4,5,6,7]; track sk) {
+                  <li class="top-item-row px-3 py-2 d-flex align-items-center justify-content-between gap-2">
+                    <div class="skeleton-shimmer" style="height: 16px; width: 72%;"></div>
+                    <div class="skeleton-shimmer" style="height: 22px; width: 44px; border-radius: 50px !important;"></div>
+                  </li>
+                }
+              </ul>
+            } @else if (topVisitedError || topVisited.length === 0) {
+              <div class="p-3 text-center text-muted small">
+                No hay datos de visitas disponibles.
+              </div>
+            } @else {
+              <ol class="top-items-list list-unstyled mb-0">
+                @for (item of topVisited; track item.id; let i = $index) {
+                  <li class="top-item-row">
+                    <a [routerLink]="['/items', item.id]" class="top-item-link">
+                      <span class="top-item-title">{{ item.title }}</span>
+                    </a>
+                    <span class="metric-badge badge-views" title="Visualizaciones">
+                      <i class="fas fa-eye me-1" aria-hidden="true"></i>
+                      {{ item.count }}
+                    </span>
+                  </li>
+                }
+              </ol>
+            }
+          </div>
+        </aside>
+
+        <!-- Widget 3: Top 7 ítems más descargados -->
+        <aside class="sidebar-widget mb-4" aria-labelledby="widget-downloaded-heading">
+          <div class="widget-header d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-chart-bar text-info me-2" aria-hidden="true"></i>
+              <h3 id="widget-downloaded-heading" class="widget-title mb-0">Top 7 Items más descargados</h3>
+            </div>
+          </div>
+          <div class="widget-body p-0">
+            @if (topDownloadedLoading) {
+              <ul class="top-items-list list-unstyled mb-0">
+                @for (sk of [1,2,3,4,5,6,7]; track sk) {
+                  <li class="top-item-row px-3 py-2 d-flex align-items-center justify-content-between gap-2">
+                    <div class="skeleton-shimmer" style="height: 16px; width: 72%;"></div>
+                    <div class="skeleton-shimmer" style="height: 22px; width: 44px; border-radius: 50px !important;"></div>
+                  </li>
+                }
+              </ul>
+            } @else if (topDownloadedError || topDownloaded.length === 0) {
+              <div class="p-3 text-center text-muted small">
+                No hay datos de descargas disponibles.
+              </div>
+            } @else {
+              <ol class="top-items-list list-unstyled mb-0">
+                @for (item of topDownloaded; track item.id; let i = $index) {
+                  <li class="top-item-row">
+                    <a [routerLink]="['/items', item.id]" class="top-item-link">
+                      <span class="top-item-title">{{ item.title }}</span>
+                    </a>
+                    <span class="metric-badge badge-downloads" title="Descargas">
+                      <i class="fas fa-download me-1" aria-hidden="true"></i>
+                      {{ item.count }}
+                    </span>
+                  </li>
+                }
+              </ol>
+            }
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Institutional / Partner Repositories Federation Banner -->
+    <section class="federation-partners-section mt-4 pt-1 mb-0" aria-label="Redes de Repositorios">
+      <div class="d-flex align-items-center justify-content-around flex-wrap gap-5 text-center">
+        @for (partner of partnerLogos; track partner.name) {
+          <div class="partner-item">
+            <a [href]="partner.url" target="_blank" rel="noopener noreferrer" class="partner-logo-box" [title]="partner.alt">
+              <img [src]="partner.src" [alt]="partner.alt" class="partner-logo-img" />
+            </a>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
+</main>
+
+<ds-suggestions-popup></ds-suggestions-popup>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60" width="200" height="60">
+  <g transform="translate(10, 12)">
+    <!-- Alicia colorful nodes -->
+    <circle cx="10" cy="18" r="5" fill="#54c242"/>
+    <circle cx="24" cy="8" r="6" fill="#3bb9e8"/>
+    <circle cx="28" cy="28" r="4.5" fill="#f8a51d"/>
+    <line x1="10" y1="18" x2="24" y2="8" stroke="#94a3b8" stroke-width="1.8"/>
+    <line x1="10" y1="18" x2="28" y2="28" stroke="#94a3b8" stroke-width="1.8"/>
+    <line x1="24" y1="8" x2="28" y2="28" stroke="#94a3b8" stroke-width="1.8"/>
+  </g>
+  <text x="55" y="38" font-family="'Nunito', 'Segoe UI', sans-serif" font-weight="800" font-size="28" fill="#475569" letter-spacing="3">
+    ALICIA
+  </text>
+</svg>

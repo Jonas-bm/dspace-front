@@ -1,0 +1,86 @@
+<footer class="footer-wrapper">
+  <!-- Top Contact Strip: Only shows on the home page -->
+  @if (isHomePage) {
+  <div class="footer-contact-banner">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <!-- Left Side: UNID Logo & Contact Info -->
+        <div class="col-lg-7 col-md-12">
+          <div class="d-flex align-items-center gap-4 flex-wrap">
+            <div class="footer-logo-box">
+              <img src="assets/org/logo-unid.png" alt="UNID Logo" class="footer-unid-logo" />
+            </div>
+            <div class="footer-info-content">
+              <h4 class="contact-title mb-2">Contáctanos</h4>
+              <p class="contact-subtitle mb-2">Servicio de Atención al Estudiante (SAE)</p>
+              <div class="contact-details">
+                <p class="mb-1">
+                  <i class="fas fa-phone-alt me-2" aria-hidden="true"></i>
+                  <strong>+51 960 202 070</strong>
+                </p>
+                <p class="mb-1">
+                  <i class="fas fa-phone me-2" aria-hidden="true"></i>
+                  Lima (01) 315 9600 | 0801 19600 (opción 1-1)
+                </p>
+                <p class="mb-0 privacy-line">
+                  Repositorio Digital Institucional UNID -
+                  @if (showPrivacyPolicy) {
+                    <a [routerLink]="['/info/privacy']" class="footer-link-white">Política de Privacidad</a>
+                  }
+                  @if (!showPrivacyPolicy) {
+                    <span>Política de Privacidad</span>
+                  }
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Email Button & Social Icons -->
+        <div class="col-lg-5 col-md-12 text-lg-end text-start">
+          <div class="d-flex flex-column align-items-lg-end align-items-start gap-3">
+            <a href="mailto:repositorio@unid.edu.pe" class="btn-email-pill">
+              <i class="fas fa-envelope me-2" aria-hidden="true"></i>
+              <span>Contacto: repositorio&#64;unid.edu.pe</span>
+            </a>
+
+            <div class="social-icons-row d-flex gap-2">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="Facebook">
+                <i class="fab fa-facebook-f" aria-hidden="true"></i>
+              </a>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in" aria-hidden="true"></i>
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" class="social-circle-btn" aria-label="Instagram">
+                <i class="fab fa-instagram" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Bottom Sub-Footer Bar -->
+  <div class="footer-bottom-bar">
+    <div class="container d-flex justify-content-center align-items-center text-center">
+      <div class="footer-copy-text text-center">
+        <span>dspace-angular versión 10.0.0 por <a href="https://www.erpeduca.com" target="_blank" rel="noopener noreferrer" class="erp-educa-link">ERP Educa</a></span>
+      </div>
+      <!-- Enlaces ocultos pero conservados en el código -->
+      <div class="footer-extra-links d-none" aria-hidden="true">
+        @if (showCookieSettings) {
+          <a href="javascript:void(0);" (click)="openCookieSettings()" class="footer-bottom-link">
+            {{ 'footer.link.cookies' | translate }}
+          </a>
+        }
+        @if (showEndUserAgreement) {
+          <a [routerLink]="['/info/end-user-agreement']" class="footer-bottom-link">
+            {{ 'footer.link.end-user-agreement' | translate }}
+          </a>
+        }
+      </div>
+    </div>
+  </div>
+</footer>

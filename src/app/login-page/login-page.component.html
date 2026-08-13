@@ -1,0 +1,25 @@
+<div class="login-page-wrapper">
+  <div class="login-card-container">
+    <div class="login-card">
+
+      <!-- Logo y título — oculto en móvil -->
+      <div class="login-logo-area text-center mb-4 d-none d-sm-block">
+        <img
+          src="assets/org/logo-unid.png"
+          alt="UNID - Repositorio Digital"
+          class="login-unid-logo"
+        />
+        <h1 class="login-heading mt-3">{{"login.form.header" | translate}}</h1>
+        <p class="login-subheading">Repositorio Digital Institucional</p>
+      </div>
+
+      <!-- Solo título en móvil (sin logo) -->
+      <div class="login-mobile-header d-block d-sm-none">
+        <h1 class="login-heading-mobile">{{"login.form.header" | translate}}</h1>
+        <p class="login-subheading-mobile">Repositorio Digital Institucional</p>
+      </div>
+
+      <ds-log-in [isStandalonePage]="true"></ds-log-in>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
+  <g transform="translate(10, 14)">
+    <rect x="0" y="0" width="10" height="10" fill="#e91e63" rx="2"/>
+    <rect x="12" y="0" width="10" height="10" fill="#00bcd4" rx="2"/>
+    <rect x="0" y="12" width="10" height="10" fill="#9c27b0" rx="2"/>
+    <rect x="12" y="12" width="10" height="10" fill="#3f51b5" rx="2"/>
+  </g>
+  <text x="45" y="32" font-family="'Nunito', 'Segoe UI', sans-serif" font-weight="800" font-size="22" fill="#475569">
+    LA Referencia
+  </text>
+  <text x="45" y="44" font-family="'Nunito', 'Segoe UI', sans-serif" font-weight="500" font-size="9" fill="#94a3b8">
+    Red Latinoamericana de Repositorios
+  </text>
+</svg>

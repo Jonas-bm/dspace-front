@@ -1,0 +1,46 @@
+:host {
+  .ds-menu-item-wrapper {
+    position: relative;
+
+    /*
+     * HOVER BRIDGE FIX:
+     * Creates an invisible zone below the trigger button that is part of the
+     * wrapper's hover area. This prevents mouseleave from firing while the
+     * cursor travels from the button down into the dropdown menu.
+     */
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      bottom: -12px;
+      left: 0;
+      right: 0;
+      height: 14px;
+      background: transparent;
+      z-index: 9999;
+      pointer-events: auto;
+    }
+  }
+
+  .dropdown-menu {
+    overflow: hidden;
+    min-width: 100%;
+    top: 100%;
+
+    @include media-breakpoint-down(xs) {
+      border: 0;
+      background-color: var(--ds-expandable-navbar-bg);
+    }
+    @include media-breakpoint-up(md) {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+      background-color: var(--ds-navbar-dropdown-bg);
+    }
+  }
+
+  .toggle-menu-icon {
+    &, &:hover {
+      text-decoration: none;
+    }
+  }
+}

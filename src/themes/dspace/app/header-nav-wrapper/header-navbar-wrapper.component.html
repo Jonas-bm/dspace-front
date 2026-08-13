@@ -1,0 +1,31 @@
+<div id="header-navbar-wrapper">
+  <ds-header></ds-header>
+  <!-- Collapsible navbar (mobile only) - Slide from Right Drawer -->
+  @if ((isMobile$ | async)) {
+    <!-- Backdrop overlay -->
+    <div id="mobile-nav-backdrop"
+         [class.active]="!(isNavBarCollapsed$ | async)"
+         (click)="toggleNavbar()">
+    </div>
+    <!-- Slide-in drawer panel -->
+    <div id="mobile-navbar-wrapper"
+         [@slideMobileNav]="(isNavBarCollapsed$ | async) ? 'collapsed' : 'expanded'">
+      <!-- Drawer header -->
+      <div id="mobile-drawer-header">
+        <img src="assets/org/logo-unid.png" alt="UNID" id="mobile-drawer-logo" />
+        <button id="mobile-drawer-close" (click)="toggleNavbar()" [attr.aria-label]="'nav.toggle' | translate">
+          <span class="fas fa-times fa-fw" aria-hidden="true"></span>
+        </button>
+      </div>
+      <nav class="px-0" id="collapsible-mobile-navbar"
+           [attr.aria-hidden]="(isNavBarCollapsed$ | async)"
+           [attr.aria-label]="'nav.main.description' | translate">
+        <ds-navbar></ds-navbar>
+      </nav>
+      <!-- Drawer footer decoration -->
+      <div id="mobile-drawer-footer">
+        <div class="drawer-footer-accent"></div>
+      </div>
+    </div>
+  }
+</div>

@@ -1,0 +1,281 @@
+/* =========================================================
+   LOGIN PAGE — Premium design: card on desktop, clean on mobile
+   ========================================================= */
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.login-page-wrapper {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+  position: relative;
+  overflow: hidden;
+
+  /* Desktop only: dark gradient background */
+  @media (min-width: 576px) {
+    background: linear-gradient(145deg, #07111e 0%, #0e1f35 50%, #071525 100%);
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        ellipse 80% 60% at 50% 0%,
+        rgba(0, 200, 83, 0.07) 0%,
+        transparent 70%
+      );
+      pointer-events: none;
+    }
+  }
+
+  /* Mobile: transparent, CENTRADO vertical y horizontal */
+  @media (max-width: 575.98px) {
+    background: transparent;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.75rem;
+    min-height: calc(100dvh - 120px); /* resta header + breadcrumb */
+    box-sizing: border-box;
+  }
+}
+
+.login-card-container {
+  width: 100%;
+  max-width: 460px;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 575.98px) {
+    max-width: 100%;
+  }
+}
+
+/* =========================================================
+   CARD
+   ========================================================= */
+.login-card {
+  /* Desktop: white card with shadow */
+  @media (min-width: 576px) {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 2.5rem 2.25rem;
+    box-shadow:
+      0 32px 80px -10px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+
+  /* Mobile: transparent, full width */
+  @media (max-width: 575.98px) {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   DESKTOP LOGO AREA
+   ========================================================= */
+.login-logo-area {
+  .login-unid-logo {
+    height: 72px;
+    max-height: 80px;
+    width: auto;
+    max-width: 240px;
+    object-fit: contain;
+  }
+
+  .login-heading {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 0.25rem;
+  }
+
+  .login-subheading {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: #64748b;
+    margin-bottom: 0;
+  }
+}
+
+/* =========================================================
+   MOBILE HEADER (sin logo, solo texto)
+   ========================================================= */
+.login-mobile-header {
+  padding: 0 0 0.25rem 0;
+  text-align: center;
+
+  .login-heading-mobile {
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #0f172a;
+    margin: 0 0 0.35rem 0;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .login-subheading-mobile {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: #64748b;
+    margin: 0;
+  }
+}
+
+/* =========================================================
+   ds-log-in wrapper overrides (standalone page)
+   ========================================================= */
+ds-log-in {
+  display: block;
+
+  @media (min-width: 576px) {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f5f9;
+  }
+
+  @media (max-width: 575.98px) {
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+  }
+}
+
+/* =========================================================
+   MOBILE — Estilos para el formulario de login
+   ========================================================= */
+@media (max-width: 575.98px) {
+
+  /* Quitar padding lateral del contenedor interno */
+  .login-container {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* Form fields area */
+  .form-login {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 1.5rem 1.5rem 0 1.5rem;
+
+    /* Email input */
+    input[type="email"].form-control {
+      height: 54px;
+      font-size: 1rem;
+      border: 1.5px solid #e2e8f0;
+      border-bottom: none;
+      border-radius: 16px 16px 0 0 !important;
+      padding: 0 1.1rem;
+      color: #1e293b;
+      background: #f8fafc;
+      margin-bottom: 0 !important;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &:focus {
+        border-color: #00c853 !important;
+        box-shadow: none !important;
+        background: #fff;
+        z-index: 2;
+      }
+
+      &::placeholder {
+        color: #94a3b8;
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Password input */
+    input[type="password"].form-control {
+      height: 54px;
+      font-size: 1rem;
+      border: 1.5px solid #e2e8f0;
+      border-top: 1px solid #e2e8f0;
+      border-radius: 0 0 16px 16px !important;
+      padding: 0 1.1rem;
+      color: #1e293b;
+      background: #f8fafc;
+      margin-bottom: 1.25rem !important;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+      &:focus {
+        border-color: #00c853 !important;
+        box-shadow: none !important;
+        background: #fff;
+        z-index: 2;
+      }
+
+      &::placeholder {
+        color: #94a3b8;
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Submit button */
+    button[type="submit"].btn-primary {
+      height: 54px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 16px !important;
+      background: linear-gradient(135deg, #00c853 0%, #00b0ff 100%) !important;
+      border: none !important;
+      color: #fff !important;
+      box-shadow: 0 6px 20px rgba(0, 200, 83, 0.35) !important;
+      letter-spacing: 0.02em;
+      transition: all 0.25s ease !important;
+
+      i { margin-right: 0.4rem; }
+
+      &:active {
+        transform: scale(0.98);
+        box-shadow: 0 3px 12px rgba(0, 200, 83, 0.25) !important;
+      }
+    }
+  }
+
+  /* Links area (register / forgot password) */
+  .mt-2 {
+    padding: 0.5rem 1.5rem 1.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+
+    .dropdown-item {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #0284c7 !important;
+      padding: 0.6rem 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      border-bottom: 1px solid #f1f5f9;
+      text-decoration: none !important;
+      transition: color 0.2s ease;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        color: #00873a !important;
+      }
+    }
+  }
+
+  /* Alert errors */
+  .alert {
+    margin: 0 1.5rem 1rem 1.5rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+  }
+}

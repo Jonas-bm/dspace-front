@@ -1,0 +1,58 @@
+<div class="container statistics-dashboard my-4">
+
+  <ng-container *ngVar="(scope$ | async) as scope">
+    @if (scope && scope.type !== 'site') {
+      <div class="dashboard-header mb-4">
+        <h1 class="header" id="{{ scope.id }}">
+          {{ 'statistics.header' | translate: { scope: getName(scope) } }}
+        </h1>
+      </div>
+    }
+  </ng-container>
+
+  <ng-container *ngVar="reports$ | async as reports">
+
+    @if (!reports) {
+      <ds-loading></ds-loading>
+    }
+
+    @if (reports) {
+      <!-- Main Trend Report (Visits Per Month) at the top -->
+      @for (report of reports; track report) {
+        @if (report.reportType === 'TotalVisitsPerMonth') {
+          <div class="row mb-4">
+            <div class="col-12">
+              <ds-statistics-table
+                [report]="report"
+                class="trend-card w-100 {{ report.id }}">
+              </ds-statistics-table>
+            </div>
+          </div>
+        }
+      }
+
+      <!-- Grid for other Ranking/Distribution reports -->
+      <div class="row">
+        @for (report of reports; track report) {
+          @if (report.reportType !== 'TotalVisitsPerMonth') {
+            <div class="col-12 mb-4">
+              <ds-statistics-table
+                [report]="report"
+                class="ranking-card w-100 {{ report.id }}">
+              </ds-statistics-table>
+            </div>
+          }
+        }
+      </div>
+
+      @if ((hasData$ | async) !== true) {
+        <div class="card p-5 text-center text-muted shadow-sm border-0 bg-light">
+          <i class="fas fa-chart-bar fa-3x mb-3 text-secondary" aria-hidden="true"></i>
+          <p class="mb-0">{{ 'statistics.page.no-data' | translate }}</p>
+        </div>
+      }
+    }
+
+  </ng-container>
+
+</div>
