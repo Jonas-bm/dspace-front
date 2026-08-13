@@ -2,13 +2,13 @@ import { isPlatformBrowser } from '@angular/common';
 import {
   Component,
   Inject,
+  Injector,
   Input,
   OnChanges,
   PLATFORM_ID,
   signal,
   SimpleChanges,
   WritableSignal,
-  Injector,
 } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { of } from 'rxjs';
