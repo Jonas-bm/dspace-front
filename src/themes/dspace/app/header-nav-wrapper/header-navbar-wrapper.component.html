@@ -4,7 +4,7 @@
   @if ((isMobile$ | async)) {
     <!-- Backdrop overlay -->
     <div id="mobile-nav-backdrop"
-         [class.active]="!(isNavBarCollapsed$ | async)"
+         [class.active]="(isNavBarCollapsed$ | async) === false"
          (click)="toggleNavbar()">
     </div>
     <!-- Slide-in drawer panel -->

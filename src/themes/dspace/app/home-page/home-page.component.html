@@ -123,27 +123,29 @@
           </div>
 
           <!-- Pagination Bar -->
-          <div class="pagination-footer d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4" *ngIf="totalResults > 0">
-            <div class="page-size-selector d-flex align-items-center gap-2">
-              <label for="pageSizeSelect" class="pagination-label">Registros a mostrar</label>
-              <select id="pageSizeSelect" class="form-select page-size-select" [ngModel]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)">
-                <option [value]="5">5</option>
-                <option [value]="10">10</option>
-                <option [value]="20">20</option>
-              </select>
-            </div>
-            <div class="pagination-info d-flex align-items-center gap-3">
-              <span class="results-range-text">{{ resultsRangeText }}</span>
-              <div class="nav-arrows-group d-flex gap-1">
-                <button type="button" class="btn btn-arrow-nav" [dsBtnDisabled]="currentPage === 1 || isLoading" (click)="goToPage(currentPage - 1)" aria-label="Página anterior">
-                  <i class="fas fa-chevron-left" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="btn btn-arrow-nav" [dsBtnDisabled]="currentPage === totalPages || isLoading" (click)="goToPage(currentPage + 1)" aria-label="Página siguiente">
-                  <i class="fas fa-chevron-right" aria-hidden="true"></i>
-                </button>
+          @if (totalResults > 0) {
+            <div class="pagination-footer d-flex justify-content-between align-items-center flex-wrap gap-3 mt-4">
+              <div class="page-size-selector d-flex align-items-center gap-2">
+                <label for="pageSizeSelect" class="pagination-label">Registros a mostrar</label>
+                <select id="pageSizeSelect" class="form-select page-size-select" [ngModel]="selectedPageSize" (ngModelChange)="onPageSizeChange($event)">
+                  <option [value]="5">5</option>
+                  <option [value]="10">10</option>
+                  <option [value]="20">20</option>
+                </select>
+              </div>
+              <div class="pagination-info d-flex align-items-center gap-3">
+                <span class="results-range-text">{{ resultsRangeText }}</span>
+                <div class="nav-arrows-group d-flex gap-1">
+                  <button type="button" class="btn btn-arrow-nav" [dsBtnDisabled]="currentPage === 1 || isLoading" (click)="goToPage(currentPage - 1)" aria-label="Página anterior">
+                    <i class="fas fa-chevron-left" aria-hidden="true"></i>
+                  </button>
+                  <button type="button" class="btn btn-arrow-nav" [dsBtnDisabled]="currentPage === totalPages || isLoading" (click)="goToPage(currentPage + 1)" aria-label="Página siguiente">
+                    <i class="fas fa-chevron-right" aria-hidden="true"></i>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          }
         </section>
 
         <!-- Section: Comunidades en DSpace (Oculto visualmente) -->

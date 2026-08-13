@@ -69,10 +69,10 @@ export class StatisticsTableComponent implements OnInit {
   areaPath = '';
 
   // Points computed for SVG line chart
-  svgPoints: { x: number, y: number, label: string, value: number }[] = [];
+  svgPoints: { x: number; y: number; label: string; value: number }[] = [];
 
   // Y-axis helper lines
-  yAxisGridLines: { y: number, value: number }[] = [];
+  yAxisGridLines: { y: number; value: number }[] = [];
 
   constructor(
     protected dsoService: DSpaceObjectDataService,
@@ -83,7 +83,7 @@ export class StatisticsTableComponent implements OnInit {
     this.hasData = this.report && this.report.points && this.report.points.length > 0;
     if (this.hasData) {
       this.headers = Object.keys(this.report.points[0].values);
-      const values = this.report.points.map(p => this.getPointValue(p));
+      const values = this.report.points.map((p) => this.getPointValue(p));
       this.maxValue = Math.max(...values, 0);
 
       if (this.report.reportType === 'TotalVisitsPerMonth') {
@@ -124,7 +124,7 @@ export class StatisticsTableComponent implements OnInit {
       return;
     }
 
-    const values = this.report.points.map(p => this.getPointValue(p));
+    const values = this.report.points.map((p) => this.getPointValue(p));
     const maxVal = Math.max(...values, 1); // Avoid division by zero
 
     // Compute coordinate points

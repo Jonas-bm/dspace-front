@@ -61,6 +61,7 @@ import { HomePageComponent as BaseComponent } from '../../../../app/home-page/ho
 import { RecentItemListComponent } from '../../../../app/home-page/recent-item-list/recent-item-list.component';
 import { ThemedTopLevelCommunityListComponent } from '../../../../app/home-page/top-level-community-list/themed-top-level-community-list.component';
 import { SuggestionsPopupComponent } from '../../../../app/notifications/suggestions/popup/suggestions-popup.component';
+import { BtnDisabledDirective } from '../../../../app/shared/btn-disabled.directive';
 import { PaginationComponentOptions } from '../../../../app/shared/pagination/pagination-component-options.model';
 import { PdfThumbnailComponent } from '../../../../app/shared/pdf-thumbnail/pdf-thumbnail.component';
 import { PaginatedSearchOptions } from '../../../../app/shared/search/models/paginated-search-options.model';
@@ -103,6 +104,7 @@ export interface IndexLink {
   standalone: true,
   imports: [
     AsyncPipe,
+    BtnDisabledDirective,
     CommonModule,
     FormsModule,
     NgClass,

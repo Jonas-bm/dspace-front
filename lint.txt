@@ -1,0 +1,5 @@
+/Users/jonas/Developer/projects/ERP Educa/dspace-local v9.1/frontend/src/themes/dspace/app/header-nav-wrapper/header-navbar-wrapper.component.html
+  7:26  error  Async pipe results should not be negated. Use `(observable | async) === false`, `(observable | async) === null`, or `(observable | async) === undefined` to check its value instead  @angular-eslint/template/no-negated-async
+/Users/jonas/Developer/projects/ERP Educa/dspace-local v9.1/frontend/src/themes/dspace/app/home-page/home-page.component.html
+  126:114  error  Use built-in control flow instead of directive ngIf  @angular-eslint/template/prefer-control-flow
+✖ 2 problems (2 errors, 0 warnings)
