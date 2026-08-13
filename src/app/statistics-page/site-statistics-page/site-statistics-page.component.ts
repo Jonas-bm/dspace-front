@@ -1,8 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { combineLatest, of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import {
+  combineLatest,
+  of,
+} from 'rxjs';
+import {
+  catchError,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 
 import { SiteDataService } from '../../core/data/site-data.service';
 import { getFirstCompletedRemoteData } from '../../core/shared/operators';
@@ -62,12 +69,12 @@ export class SiteStatisticsPageComponent extends StatisticsPageDirective<Site> {
                 }
                 return null;
               }),
-              catchError(() => of(null))
-            )
-          )
-        )
+              catchError(() => of(null)),
+            ),
+          ),
+        ),
       ),
-      map((reports) => reports.filter((report) => !!report && report.points && report.points.length > 0))
+      map((reports) => reports.filter((report) => !!report && report.points && report.points.length > 0)),
     );
   }
 }

@@ -14,20 +14,17 @@ import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 import { AuthService } from '../core/auth/auth.service';
+import { BitstreamDataService } from '../core/data/bitstream-data.service';
 import { AuthorizationDataService } from '../core/data/feature-authorization/authorization-data.service';
 import { FeatureID } from '../core/data/feature-authorization/feature-id';
 import { RemoteData } from '../core/data/remote-data';
 import { Bitstream } from '../core/shared/bitstream.model';
 import { FileService } from '../core/shared/file.service';
-import {
-  hasNoValue,
-  hasValue,
-} from '../shared/empty.util';
-import { ThemedLoadingComponent } from '../shared/loading/themed-loading.component';
-import { SafeUrlPipe } from '../shared/utils/safe-url-pipe';
-import { BitstreamDataService } from '../core/data/bitstream-data.service';
-import { PdfThumbnailComponent } from '../shared/pdf-thumbnail/pdf-thumbnail.component';
 import { getFirstCompletedRemoteData } from '../core/shared/operators';
+import { hasValue } from '../shared/empty.util';
+import { ThemedLoadingComponent } from '../shared/loading/themed-loading.component';
+import { PdfThumbnailComponent } from '../shared/pdf-thumbnail/pdf-thumbnail.component';
+import { SafeUrlPipe } from '../shared/utils/safe-url-pipe';
 
 /**
  * This component renders a given Bitstream as a thumbnail.
@@ -40,10 +37,10 @@ import { getFirstCompletedRemoteData } from '../core/shared/operators';
   templateUrl: './thumbnail.component.html',
   standalone: true,
   imports: [
+    PdfThumbnailComponent,
     SafeUrlPipe,
     ThemedLoadingComponent,
     TranslatePipe,
-    PdfThumbnailComponent,
   ],
 })
 export class ThumbnailComponent implements OnChanges {
@@ -125,13 +122,13 @@ export class ThumbnailComponent implements OnChanges {
         if (this.item) {
           this.bitstreamService.findAllByItemAndBundleName(this.item, 'ORIGINAL', {
             currentPage: 1,
-            elementsPerPage: 20
+            elementsPerPage: 20,
           }, true, true).pipe(
-            getFirstCompletedRemoteData()
+            getFirstCompletedRemoteData(),
           ).subscribe((rd: any) => {
             if (rd.hasSucceeded && rd.payload && rd.payload.page.length > 0) {
               const pdfBitstream = rd.payload.page.find((b: any) =>
-                b.name && b.name.toLowerCase().endsWith('.pdf')
+                b.name && b.name.toLowerCase().endsWith('.pdf'),
               );
               if (pdfBitstream && pdfBitstream._links && pdfBitstream._links.content) {
                 this.pdfUrl = pdfBitstream._links.content.href;
@@ -140,7 +137,7 @@ export class ThumbnailComponent implements OnChanges {
                 this.setSrc(this.defaultImage);
               }
             } else {
-                  this.setSrc(this.defaultImage);
+              this.setSrc(this.defaultImage);
             }
           });
         } else {

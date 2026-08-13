@@ -1,21 +1,26 @@
 import {
+  CommonModule,
+  isPlatformBrowser,
+} from '@angular/common';
+import {
+  ChangeDetectorRef,
   Component,
-  Input,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
   Inject,
+  Input,
+  OnChanges,
+  OnInit,
   PLATFORM_ID,
-  ChangeDetectorRef
+  SimpleChanges,
 } from '@angular/core';
-import { isPlatformBrowser, CommonModule } from '@angular/common';
 
 declare const pdfjsLib: any;
 
 @Component({
   selector: 'ds-pdf-thumbnail',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+  ],
   styles: [`
     :host {
       display: contents;
@@ -30,22 +35,22 @@ declare const pdfjsLib: any;
       [style.opacity]="loading ? 0.6 : 1"
       style="transition: opacity 0.3s ease;"
     />
-  `
+  `,
 })
 export class PdfThumbnailComponent implements OnInit, OnChanges {
   @Input() pdfUrl: string;
-  @Input() fallbackUrl: string = 'assets/org/logo-unid.png';
-  @Input() alt: string = 'PDF Preview';
-  @Input() class: string = '';
-  @Input() id: string = '';
+  @Input() fallbackUrl = 'assets/org/logo-unid.png';
+  @Input() alt = 'PDF Preview';
+  @Input() class = '';
+  @Input() id = '';
 
   thumbnailUrl: string | null = null;
-  loading: boolean = false;
+  loading = false;
   private isBrowser: boolean;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: any,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
   ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
@@ -67,7 +72,7 @@ export class PdfThumbnailComponent implements OnInit, OnChanges {
   }
 
   private loadAndRenderPdf(): void {
-    if (!this.pdfUrl) return;
+    if (!this.pdfUrl) { return; }
 
     try {
       const cached = sessionStorage.getItem(this.getCacheKey());
@@ -77,7 +82,9 @@ export class PdfThumbnailComponent implements OnInit, OnChanges {
         this.cdr.detectChanges();
         return;
       }
-    } catch (e) {}
+    } catch (e) {
+      // ignore
+    }
 
     this.loading = true;
     this.thumbnailUrl = null;
@@ -119,7 +126,7 @@ export class PdfThumbnailComponent implements OnInit, OnChanges {
 
         const renderContext = {
           canvasContext: context,
-          viewport: viewport
+          viewport: viewport,
         };
 
         const renderTask = page.render(renderContext);
@@ -129,7 +136,9 @@ export class PdfThumbnailComponent implements OnInit, OnChanges {
           this.loading = false;
           try {
             sessionStorage.setItem(this.getCacheKey(), dataUrl);
-          } catch (e) {}
+          } catch (e) {
+            // ignore
+          }
           this.cdr.detectChanges();
         });
       });

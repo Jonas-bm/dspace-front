@@ -1,4 +1,7 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+import {
+  AsyncPipe,
+  CommonModule,
+} from '@angular/common';
 import {
   Component,
   Input,
@@ -8,7 +11,10 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { DSONameService } from '../../core/breadcrumbs/dso-name.service';
 import { DSpaceObjectDataService } from '../../core/data/dspace-object-data.service';
-import { Point, UsageReport } from '../../core/statistics/models/usage-report.model';
+import {
+  Point,
+  UsageReport,
+} from '../../core/statistics/models/usage-report.model';
 
 /**
  * Component representing a statistics table for a given usage report.
@@ -149,7 +155,7 @@ export class StatisticsTableComponent implements OnInit {
     this.yAxisGridLines = [
       { y: this.paddingY, value: maxVal },
       { y: this.paddingY + usableHeight / 2, value: Math.round(maxVal / 2) },
-      { y: this.svgHeight - this.paddingY, value: 0 }
+      { y: this.svgHeight - this.paddingY, value: 0 },
     ];
   }
 

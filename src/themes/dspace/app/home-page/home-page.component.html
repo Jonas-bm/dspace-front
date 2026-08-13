@@ -135,10 +135,10 @@
             <div class="pagination-info d-flex align-items-center gap-3">
               <span class="results-range-text">{{ resultsRangeText }}</span>
               <div class="nav-arrows-group d-flex gap-1">
-                <button type="button" class="btn btn-arrow-nav" [disabled]="currentPage === 1 || isLoading" (click)="goToPage(currentPage - 1)" aria-label="Página anterior">
+                <button type="button" class="btn btn-arrow-nav" [dsBtnDisabled]="currentPage === 1 || isLoading" (click)="goToPage(currentPage - 1)" aria-label="Página anterior">
                   <i class="fas fa-chevron-left" aria-hidden="true"></i>
                 </button>
-                <button type="button" class="btn btn-arrow-nav" [disabled]="currentPage === totalPages || isLoading" (click)="goToPage(currentPage + 1)" aria-label="Página siguiente">
+                <button type="button" class="btn btn-arrow-nav" [dsBtnDisabled]="currentPage === totalPages || isLoading" (click)="goToPage(currentPage + 1)" aria-label="Página siguiente">
                   <i class="fas fa-chevron-right" aria-hidden="true"></i>
                 </button>
               </div>

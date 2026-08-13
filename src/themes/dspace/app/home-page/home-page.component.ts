@@ -18,11 +18,6 @@ import {
 } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import {
-  APP_CONFIG,
-  AppConfig,
-} from 'src/config/app-config.interface';
-
-import {
   forkJoin,
   Observable,
   of,
@@ -34,6 +29,10 @@ import {
   switchMap,
   take,
 } from 'rxjs/operators';
+import {
+  APP_CONFIG,
+  AppConfig,
+} from 'src/config/app-config.interface';
 
 import {
   SortDirection,
@@ -52,7 +51,10 @@ import {
 } from '../../../../app/core/shared/operators';
 import { SearchService } from '../../../../app/core/shared/search/search.service';
 import { Site } from '../../../../app/core/shared/site.model';
-import { Point, UsageReport } from '../../../../app/core/statistics/models/usage-report.model';
+import {
+  Point,
+  UsageReport,
+} from '../../../../app/core/statistics/models/usage-report.model';
 import { UsageReportDataService } from '../../../../app/core/statistics/usage-report-data.service';
 import { ThemedHomeNewsComponent } from '../../../../app/home-page/home-news/themed-home-news.component';
 import { HomePageComponent as BaseComponent } from '../../../../app/home-page/home-page.component';
@@ -185,7 +187,7 @@ export class HomePageComponent extends BaseComponent implements OnInit {
 
     // Auto-refresh fresh statistics whenever the user navigates back to Home page
     this.router.events.pipe(
-      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd),
     ).subscribe((event: NavigationEnd) => {
       const url = event.urlAfterRedirects;
       if (url === '/' || url === '/home' || url.startsWith('/home?') || url.startsWith('/?')) {
@@ -207,10 +209,10 @@ export class HomePageComponent extends BaseComponent implements OnInit {
           return of([]);
         }
         return this.usageReportDataService.searchStatistics(site._links.self.href, 0, 10, false).pipe(
-          catchError(() => of([]))
+          catchError(() => of([])),
         );
       }),
-      catchError(() => of([]))
+      catchError(() => of([])),
     ).subscribe((reports: UsageReport[]) => {
       let visited: TopItem[] = [];
       if (reports && reports.length > 0) {
@@ -254,11 +256,11 @@ export class HomePageComponent extends BaseComponent implements OnInit {
       new PaginatedSearchOptions({
         pagination: paginationConfig,
         dsoTypes: [DSpaceObjectType.ITEM],
-      })
+      }),
     ).pipe(
       toDSpaceObjectListRD(),
       getFirstCompletedRemoteData(),
-      catchError(() => of(null))
+      catchError(() => of(null)),
     ).subscribe((rd: RemoteData<PaginatedList<Item>>) => {
       if (rd && rd.hasSucceeded && rd.payload && rd.payload.page.length > 0) {
         const items = rd.payload.page;
@@ -267,8 +269,8 @@ export class HomePageComponent extends BaseComponent implements OnInit {
           const obs$: Observable<UsageReport[]> = itemUri
             ? this.usageReportDataService.searchStatistics(itemUri, 0, 10, false)
             : this.usageReportDataService.getStatistic(item.id, 'TotalDownloads').pipe(
-                map((report: UsageReport) => (report ? [report] : []))
-              );
+              map((report: UsageReport) => (report ? [report] : [])),
+            );
 
           return obs$.pipe(
             map((reports: UsageReport[]): TopItem => {
@@ -290,7 +292,7 @@ export class HomePageComponent extends BaseComponent implements OnInit {
               id: item.id,
               title: item.firstMetadataValue('dc.title') || 'Sin título',
               count: 0,
-            }))
+            })),
           );
         });
 
@@ -325,11 +327,11 @@ export class HomePageComponent extends BaseComponent implements OnInit {
       new PaginatedSearchOptions({
         pagination: paginationConfig,
         dsoTypes: [DSpaceObjectType.ITEM],
-      })
+      }),
     ).pipe(
       toDSpaceObjectListRD(),
       getFirstCompletedRemoteData(),
-      catchError(() => of(null))
+      catchError(() => of(null)),
     ).subscribe((rd: RemoteData<PaginatedList<Item>>) => {
       if (rd && rd.hasSucceeded && rd.payload && rd.payload.page.length > 0) {
         const items = rd.payload.page;
@@ -360,7 +362,7 @@ export class HomePageComponent extends BaseComponent implements OnInit {
               id: item.id,
               title: item.firstMetadataValue('dc.title') || 'Sin título',
               count: 0,
-            }))
+            })),
           );
         });
 
@@ -409,7 +411,7 @@ export class HomePageComponent extends BaseComponent implements OnInit {
           id: item.id,
           title: item.firstMetadataValue('dc.title') || 'Sin título',
           count: 0,
-        }))
+        })),
       );
     });
 
@@ -420,18 +422,18 @@ export class HomePageComponent extends BaseComponent implements OnInit {
   }
 
   private extractViewsCount(val: any): number {
-    if (!val) return 0;
-    if (typeof val === 'number') return val;
-    if (typeof val.views === 'number') return val.views;
+    if (!val) {return 0;}
+    if (typeof val === 'number') {return val;}
+    if (typeof val.views === 'number') {return val.views;}
     if (Array.isArray(val) && val.length > 0) {
-      if (typeof val[0] === 'number') return val[0];
-      if (val[0] && typeof val[0].views === 'number') return val[0].views;
+      if (typeof val[0] === 'number') {return val[0];}
+      if (val[0] && typeof val[0].views === 'number') {return val[0].views;}
       const firstVal = Object.values(val[0])[0];
-      if (typeof firstVal === 'number') return firstVal;
+      if (typeof firstVal === 'number') {return firstVal;}
     }
     if (typeof val === 'object') {
       const firstVal = Object.values(val)[0];
-      if (typeof firstVal === 'number') return firstVal;
+      if (typeof firstVal === 'number') {return firstVal;}
     }
     return 0;
   }
@@ -492,7 +494,7 @@ export class HomePageComponent extends BaseComponent implements OnInit {
             // Fetch real Solr stats for this item
             if (item._links && item._links.self) {
               this.usageReportDataService.searchStatistics(item._links.self.href, 0, 10, false).pipe(
-                catchError(() => of([]))
+                catchError(() => of([])),
               ).subscribe((reports: UsageReport[]) => {
                 if (reports && reports.length > 0) {
                   const visitsReport = reports.find(r => r.reportType === 'TotalVisits');

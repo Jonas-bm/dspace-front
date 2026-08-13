@@ -1,7 +1,7 @@
 import {
   AsyncPipe,
-  NgClass,
   DatePipe,
+  NgClass,
   SlicePipe,
 } from '@angular/common';
 import {
@@ -30,10 +30,10 @@ import { SearchResultListElementComponent } from '../../../search-result-list-el
   standalone: true,
   imports: [
     AsyncPipe,
-    NgClass,
     DatePipe,
-    SlicePipe,
+    NgClass,
     RouterLink,
+    SlicePipe,
     ThemedBadgesComponent,
     ThemedThumbnailComponent,
     TruncatableComponent,
