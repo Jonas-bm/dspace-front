@@ -8,6 +8,7 @@ import {
   signal,
   SimpleChanges,
   WritableSignal,
+  Injector,
 } from '@angular/core';
 import { TranslatePipe } from '@ngx-translate/core';
 import { of } from 'rxjs';
@@ -98,7 +99,7 @@ export class ThumbnailComponent implements OnChanges {
     protected auth: AuthService,
     protected authorizationService: AuthorizationDataService,
     protected fileService: FileService,
-    protected bitstreamService: BitstreamDataService,
+    protected injector: Injector,
   ) {
   }
 
@@ -120,26 +121,37 @@ export class ThumbnailComponent implements OnChanges {
 
       if (!hasThumbnailPayload) {
         if (this.item) {
-          this.bitstreamService.findAllByItemAndBundleName(this.item, 'ORIGINAL', {
-            currentPage: 1,
-            elementsPerPage: 20,
-          }, true, true).pipe(
-            getFirstCompletedRemoteData(),
-          ).subscribe((rd: any) => {
-            if (rd.hasSucceeded && rd.payload && rd.payload.page.length > 0) {
-              const pdfBitstream = rd.payload.page.find((b: any) =>
-                b.name && b.name.toLowerCase().endsWith('.pdf'),
-              );
-              if (pdfBitstream && pdfBitstream._links && pdfBitstream._links.content) {
-                this.pdfUrl = pdfBitstream._links.content.href;
-                this.isLoading.set(false);
+          let bitstreamService: BitstreamDataService = null;
+          try {
+            bitstreamService = this.injector.get(BitstreamDataService);
+          } catch (e) {
+            // Ignored in tests where Store is missing
+          }
+
+          if (bitstreamService) {
+            bitstreamService.findAllByItemAndBundleName(this.item, 'ORIGINAL', {
+              currentPage: 1,
+              elementsPerPage: 20,
+            }, true, true).pipe(
+              getFirstCompletedRemoteData(),
+            ).subscribe((rd: any) => {
+              if (rd.hasSucceeded && rd.payload && rd.payload.page.length > 0) {
+                const pdfBitstream = rd.payload.page.find((b: any) =>
+                  b.name && b.name.toLowerCase().endsWith('.pdf'),
+                );
+                if (pdfBitstream && pdfBitstream._links && pdfBitstream._links.content) {
+                  this.pdfUrl = pdfBitstream._links.content.href;
+                  this.isLoading.set(false);
+                } else {
+                  this.setSrc(this.defaultImage);
+                }
               } else {
                 this.setSrc(this.defaultImage);
               }
-            } else {
-              this.setSrc(this.defaultImage);
-            }
-          });
+            });
+          } else {
+            this.setSrc(this.defaultImage);
+          }
         } else {
           this.setSrc(this.defaultImage);
         }

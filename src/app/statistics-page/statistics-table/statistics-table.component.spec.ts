@@ -49,6 +49,8 @@ describe('StatisticsTableComponent', () => {
   describe('when the storage report is empty', () => {
 
     it ('should not display a table', () => {
+      component.isChartView = false;
+      fixture.detectChanges();
       expect(de.query(By.css('table'))).toBeNull();
     });
   });
@@ -78,7 +80,9 @@ describe('StatisticsTableComponent', () => {
       fixture.detectChanges();
     });
 
-    it ('should display a table with the correct data', () => {
+    it ('should display a table with the correct data when in table view', () => {
+      component.isChartView = false;
+      fixture.detectChanges();
 
       expect(de.query(By.css('table'))).toBeTruthy();
 
@@ -95,6 +99,14 @@ describe('StatisticsTableComponent', () => {
         .toEqual('8');
       expect(de.query(By.css('td.item_2-downloads-data')).nativeElement.innerText)
         .toEqual('8');
+    });
+
+    it ('should display a chart when in chart view', () => {
+      component.isChartView = true;
+      fixture.detectChanges();
+
+      expect(de.query(By.css('table'))).toBeNull();
+      expect(de.query(By.css('.ranking-list'))).toBeTruthy();
     });
   });
 });
