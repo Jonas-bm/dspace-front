@@ -39,7 +39,7 @@ declare const pdfjsLib: any;
 })
 export class PdfThumbnailComponent implements OnInit, OnChanges {
   @Input() pdfUrl: string;
-  @Input() fallbackUrl = 'assets/org/logo-unid.png';
+  @Input() fallbackUrl = 'assets/org/logo-universidad.png';
   @Input() alt = 'PDF Preview';
   @Input() class = '';
   @Input() id = '';

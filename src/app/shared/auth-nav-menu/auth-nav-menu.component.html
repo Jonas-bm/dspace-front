@@ -15,7 +15,8 @@
                   aria-controls="loginDropdownMenu"
                   [attr.aria-expanded]="loginDrop.isOpen()"
                   ngbDropdownToggle>
-            {{ 'nav.login' | translate }}
+            <span class="d-none d-lg-inline">{{ 'nav.login' | translate }}</span>
+            <span class="d-lg-none"><i class="fas fa-user-circle fa-lg fa-fw"></i></span>
           </button>
           <div id="loginDropdownMenu" [ngClass]="{'ps-3 pe-3': (loading | async)}" ngbDropdownMenu
                role="dialog"
@@ -57,7 +58,9 @@
       </a>
     } @else {
       <a routerLink="/login" routerLinkActive="active" class="loginLink px-0" role="link" tabindex="0">
-        {{ 'nav.login' | translate }}<span class="sr-only">(current)</span>
+        <span class="d-none d-lg-inline">{{ 'nav.login' | translate }}</span>
+        <span class="d-lg-none"><i class="fas fa-user-circle fa-lg fa-fw"></i></span>
+        <span class="sr-only">(current)</span>
       </a>
     }
   </div>
